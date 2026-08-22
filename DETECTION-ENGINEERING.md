@@ -8,10 +8,10 @@
 
 This document records the Detection Engineering work that turned raw Route 53 authoritative DNS telemetry into a validated Splunk detection, scheduled alert, analyst investigation path and Scenario 01 AI evidence flow.
 
-It is intentionally not a transcript of every command or error. It keeps the engineering decisions, useful evidence, important failures and lessons that another Detection Engineer should be able to reproduce.
+It keeps the engineering decisions, useful evidence, important failures and lessons that another Detection Engineer should be able to reproduce.
 
 > [!NOTE]
-> This was Sonia's first end-to-end Detection Engineering assignment. The work started without a prebuilt rule or pre-labelled attacker field. The detection was developed from observed telemetry, baseline behavior and controlled validation.
+> This was Sonia's life first end-to-end Detection Engineering assignment. The work started without a prebuilt rule or pre-labelled attacker field. The detection was developed from observed telemetry, baseline behavior and controlled validation.
 
 ---
 
