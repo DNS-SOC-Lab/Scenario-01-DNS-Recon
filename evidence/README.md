@@ -1,18 +1,34 @@
-# Evidence Workspace — Scenario 01 DNS Reconnaissance & Enumeration
+# Evidence — Scenario 01 DNS Reconnaissance & Enumeration
 
-**Status:** Empty by design until real scenario work begins.
+**Detection Engineering evidence status:** **✅ Complete**  
+**Official scenario evidence status:** ⏳ Pending synchronized SOC/IR exercise
 
-Keep structured non-image evidence here, such as:
+This folder preserves structured non-image evidence. Curated screenshots are indexed separately in [`../screenshots/README.md`](../screenshots/README.md).
 
-- ground-truth start/end timestamps;
-- simulation notes/commands suitable for the project record;
-- saved search/result exports where useful;
-- detection tuning notes;
-- analyst timeline/findings;
-- AI comparison notes;
-- containment/verification notes;
-- cleanup/reset confirmation.
+## Current evidence record
 
-Screenshots belong in [`../screenshots/`](../screenshots/).
+[`detection-engineering-validation.md`](detection-engineering-validation.md) summarizes the implemented engineering gates:
 
-Evidence should prove the scenario chain rather than preserve every intermediate command or troubleshooting message.
+- real field mapping;
+- ingestion timing;
+- baseline;
+- controlled positive validation;
+- benign validation;
+- final detection;
+- scheduled alert;
+- raw-event drilldown;
+- Scenario 01 AI evidence contract;
+- end-to-end AI result.
+
+## Evidence rule
+
+This repository does not preserve every troubleshooting attempt. It keeps the evidence that proves a decision or teaches a reusable engineering lesson.
+
+The following official-exercise records are intentionally still absent and must be added only when they happen:
+
+- official attack/simulation start/end ground truth;
+- SOC Analyst timeline and final disposition;
+- official AI-vs-human comparison;
+- IR decision and containment evidence;
+- post-response verification;
+- final scenario result/reset.
