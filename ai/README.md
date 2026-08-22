@@ -1,29 +1,46 @@
-# AI Profile — Scenario 01 DNS Reconnaissance & Enumeration
+# AI Integration — Scenario 01 DNS Reconnaissance & Enumeration
 
-**Status:** Planned — the shared AI bridge is common infrastructure and is built outside this repository.
+**Status:** **✅ Scenario-specific engineering integration validated**  
+**Shared AI foundation:** Reused from `DNS-Lab-Infrastructure`  
+**Scenario profile:** `dns_recon_v1`
 
-This folder will contain only the scenario-specific payload/profile mapping once the final detection has stable fields.
+This folder contains only the Scenario 01 mapping required after the human-facing detection fields stabilized. The shared Flask/OpenAI/HEC platform is not duplicated here.
 
-## Expected workflow
+## Flow
 
 ```text
-Stable Splunk detection
+Scenario 01 detection v1.0
       ↓
-Structured scenario payload
+Scheduled Splunk alert
       ↓
-Shared Flask / LLM bridge
+Native webhook result
       ↓
-Structured AI summary
+Scenario 01 evidence normalization
       ↓
-Splunk index=dns_soc_ai
+Shared AI bridge
       ↓
-Human SOC validation against raw evidence
+Structured OpenAI response
+      ↓
+Internal HTTPS HEC
+      ↓
+index=dns_soc_ai
+      ↓
+Human analyst validation
 ```
 
-## Rules
+## Principle
 
-- AI assistance never becomes the source of truth.
-- Do not let the LLM decide whether containment happens.
-- Preserve the input payload and returned summary as evidence.
-- Record where the AI was correct, incomplete or wrong.
-- Add a real scenario profile here only after the detection fields are finalized.
+AI is **advisory**.
+
+The detection is created and validated from Route 53 evidence before the LLM is involved. The analyst keeps direct access to the raw Splunk events, and the indexed AI result retains `human_validation_required=true`.
+
+## Scenario-specific artifact
+
+[`scenario-01-ai-mapping.md`](scenario-01-ai-mapping.md) documents:
+
+- Scenario identity;
+- the final alert contract;
+- `evidence_json` content;
+- bridge normalization;
+- AI result extraction in Splunk;
+- the end-to-end validation result.
