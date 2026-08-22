@@ -1,14 +1,24 @@
 # Incident Response Workspace — Scenario 01 DNS Reconnaissance & Enumeration
 
-**Status:** Planned.
+**Status:** ⏳ **Official Scenario 01 IR phase pending**
 
-This folder records the human response decision, approved containment, verification and cleanup/reset actions for the scenario.
+Detection Engineering is complete, but no official Incident Response action is claimed from the engineering validation traffic.
 
-## Response rule
+## Why this folder is still intentionally small
 
-Containment is evidence-driven and should be proportionate to the controlled reconnaissance. The IR/Defender documents the human decision, any approved restriction, and the verification result rather than applying a control automatically.
+The completed work proved:
 
-A complete response record should show:
+```text
+telemetry
+→ detection
+→ alert
+→ raw evidence
+→ AI assistance path
+```
+
+It did **not** authorize or execute the official response workflow.
+
+The IR/Defender will document the later synchronized exercise using the shared response model:
 
 ```text
 Finding
@@ -19,8 +29,11 @@ Finding
 → final verification
 ```
 
-Do not treat a Splunk alert or AI summary as automatic response authorization.
+## Response rule
 
-## Final artifacts later
+- A Splunk alert is not automatic containment authorization.
+- AI triage is not automatic containment authorization.
+- The SOC Analyst's evidence and the approved exercise condition drive the response decision.
+- Any containment must be followed by before/after technical verification.
 
-The exact files depend on the exercise. A completed scenario may include an incident-response note/playbook, containment commands/configuration and a before/after verification record.
+Real IR artifacts should be added here only when the official exercise is performed.
