@@ -1,28 +1,48 @@
 # Screenshot Evidence — Scenario 01 DNS Reconnaissance & Enumeration
 
-Use descriptive, ordered filenames. A useful starting pattern is:
+**Detection Engineering set:** **✅ Curated**
 
-```text
-01-architecture-ready.png
-02-baseline.png
-03-simulation-ground-truth.png
-04-detection-trigger.png
-05-alert-evidence.png
-06-ai-triage.png
-07-soc-investigation.png
-08-containment.png
-09-verification.png
-10-final-result.png
-```
+The public evidence set is intentionally small. It shows the decisions that matter without turning the repository into a dump of every intermediate screen.
 
-The exact set can grow with the scenario.
+## Detection Engineering evidence
 
-## Presentation rule
+| # | File | What it proves |
+|---:|---|---|
+| 01 | [`detection-engineering/01-route53-field-mapping.png`](detection-engineering/01-route53-field-mapping.png) | Real Route 53 authoritative fields were mapped before detection logic |
+| 02 | [`detection-engineering/02-route53-ingestion-latency.png`](detection-engineering/02-route53-ingestion-latency.png) | Current delivery was separated from older backlog outliers |
+| 03 | [`detection-engineering/03-baseline-validation.png`](detection-engineering/03-baseline-validation.png) | Normal source/window ranges used for threshold reasoning |
+| 04 | [`detection-engineering/04-dns-investigation-dashboard.png`](detection-engineering/04-dns-investigation-dashboard.png) | Final interactive Splunk Dashboard Studio investigation surface |
+| 05 | [`detection-engineering/05-hunting-source-window-behavior.png`](detection-engineering/05-hunting-source-window-behavior.png) | Threshold-free behavioral hunt works |
+| 06 | [`detection-engineering/06a-controlled-positive-test-traffic.png`](detection-engineering/06a-controlled-positive-test-traffic.png) | Authorized controlled positive test traffic was generated |
+| 07 | [`detection-engineering/06-controlled-positive-detection.png`](detection-engineering/06-controlled-positive-detection.png) | Positive recon-like source/window crossed the detection boundary |
+| 08 | [`detection-engineering/07-benign-no-detection.png`](detection-engineering/07-benign-no-detection.png) | Basic benign DNS activity did not trigger the same rule |
+| 09 | [`detection-engineering/08-final-detection-v1-validation.png`](detection-engineering/08-final-detection-v1-validation.png) | Final v1.0 evidence row contains the analyst fields |
+| 10 | [`detection-engineering/09-scheduled-alert-triggered.png`](detection-engineering/09-scheduled-alert-triggered.png) | Scheduled alert fired automatically |
+| 11 | [`detection-engineering/10-raw-event-drilldown.png`](detection-engineering/10-raw-event-drilldown.png) | Analyst can pivot back to exact Route 53 events |
+| 12 | [`detection-engineering/11-ai-alert-evidence-contract.png`](detection-engineering/11-ai-alert-evidence-contract.png) | Alert result contains bridge-compatible structured fields |
+| 13 | [`detection-engineering/12-ai-triage-indexed.png`](detection-engineering/12-ai-triage-indexed.png) | Structured AI result was indexed back into Splunk |
 
-In the main documentation:
+## Troubleshooting appendix
 
-1. explain the configuration/test;
-2. show the relevant screenshot;
-3. add a short caption explaining what it proves.
+Only the failures that produced reusable engineering lessons were kept.
 
-Keep screenshots curated. Do not dump repetitive troubleshooting captures into the final scenario story.
+| File | What it captures |
+|---|---|
+| [`troubleshooting/t01-kinesis-kvstore-failure.png`](troubleshooting/t01-kinesis-kvstore-failure.png) | Kinesis checkpoint failure tied to KV Store initialization rather than the detection rule |
+| [`troubleshooting/t02-compatible-kernel-recovery.png`](troubleshooting/t02-compatible-kernel-recovery.png) | Reversible kernel fallback / service recovery evidence |
+| [`troubleshooting/t03-webhook-schema-failure.png`](troubleshooting/t03-webhook-schema-failure.png) | HTTP 400 schema failure that led to the final alert evidence contract |
+
+## Deliberately excluded
+
+The final repository does not keep:
+
+- duplicate screenshots of the same search;
+- Save As dialogs covering evidence;
+- accidental wrong-command screens;
+- repeated empty-result screens that add no new finding;
+- every Dashboard Studio construction step;
+- abandoned layouts;
+- minor syntax corrections;
+- repetitive terminal output.
+
+Those were useful while building the scenario but do not make the engineering story clearer for another analyst or recruiter.

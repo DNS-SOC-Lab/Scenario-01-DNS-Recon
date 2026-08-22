@@ -1,51 +1,129 @@
-# Dashboard Plan — Scenario 01 DNS Reconnaissance & Enumeration
+# Dashboard — Scenario 01 DNS Reconnaissance Investigation
 
-**Status:** Planned. Build from real telemetry after the scenario baseline fields are confirmed.
+**Status:** **✅ Complete**  
+**Engineer:** [Sonia](https://github.com/sonia11mansha415)  
+**Format:** Splunk Dashboard Studio JSON
 
-## Design goal
+The final dashboard is an investigation surface built from the real Route 53 authoritative fields used by Scenario 01.
 
-The dashboard is an investigation surface, not decoration. Every panel must answer a SOC question and use real project fields.
+## Implementation artifact
+
+[`scenario-01-dns-recon.dashboard.json`](scenario-01-dns-recon.dashboard.json)
+
+![Scenario 01 DNS Reconnaissance Investigation](../screenshots/detection-engineering/04-dns-investigation-dashboard.png)
+
+*The final Dashboard Studio view gives the analyst source-aware DNS KPIs, time behavior, pattern distributions and raw-event investigation pivots in one page.*
+
+## Data source
+
+Primary panels use:
+
+```text
+index=dns_soc_aws
+sourcetype=aws:kinesis
+```
+
+Real Route 53 fields are extracted from `_raw` and include:
+
+```text
+query_name
+query_type
+response_code
+protocol
+edge_location
+observed_dns_source
+edns_client_subnet
+```
 
 ## Shared controls
 
-Start with one **Time Range** input shared by every panel. Add only useful scenario filters such as client/source, query type, response code, domain or VPC/instance identity.
+| Control | Purpose |
+|---|---|
+| **Global Time Range** | Applies one investigation window across the dashboard |
+| **Observed DNS Source** | Pivots the relevant panels to a selected source/resolver identity; `All` remains available |
 
-## Planned layout
+## SOC summary
 
-- Shared time range plus source/query-type/response filters where useful;
-- KPIs: total queries, unique queried names, distinct query types, observed sources, NXDOMAIN/other result count;
-- DNS queries over time and query-type distribution;
-- Top queried names/subdomains and response-code/result distribution;
-- Nginx follow-up requests from the same investigation window;
-- VPC Flow follow-up context and an analyst-ready raw-event table;
+The first row answers the analyst's immediate questions:
 
-A useful common shape is:
+- **Distinct Query Types**
+- **Observed DNS Sources**
+- **Total DNS Queries**
+- **Unique Queried Names**
+- **NXDOMAIN Count**
+
+## Behavior over time
+
+### DNS Activity Over Time
+
+Shows query concentration and bursts across the selected time range.
+
+### Record-Type Diversity Over Time
+
+Shows how the number of distinct DNS record types changes over time.
+
+## DNS pattern views
+
+### Query-Type Distribution
+
+Answers which DNS record types dominate the selected activity.
+
+### Top Queried Names
+
+Surfaces the most frequently queried names/subdomains.
+
+### Response Distribution
+
+Shows Route 53 result context such as `NOERROR` and `NXDOMAIN`.
+
+## Investigation tables
+
+### DNS Investigation Events
+
+Keeps the raw analyst pivots visible:
 
 ```text
-Input bar: time + scenario filters
-Row 1: 4–6 SOC summary KPIs
-Row 2: behavior over time
-Row 3: DNS pattern/distribution views
-Row 4: network/Web/endpoint correlation
-Row 5: investigation table
-Row 6: response verification when applicable
+_time
+observed_dns_source
+edns_client_subnet
+query_name
+query_type
+response_code
+protocol
+edge_location
 ```
 
-## Quality rules
+### Top 1-Minute DNS Bursts
 
-- Use actual source/sourcetype/field names from the lab.
-- Do not depend on a pre-labelled `classification="Suspicious"` training-data field.
-- Baseline comes before detection panels are finalized.
-- Prefer drilldowns or linked searches that take the analyst to raw evidence.
-- Keep the visual language consistent and readable across all four scenarios.
-- Save the final dashboard XML/export here only after it is tested.
-
-## Final artifacts later
-
-Expected after implementation:
+Aggregates source/window behavior into:
 
 ```text
-dashboard/
-├── README.md
-└── scenario-01-dashboard.xml   # or the actual exported dashboard format used
+query_count
+unique_names
+distinct_query_types
+query_types
+query_names
 ```
+
+This provides a quick bridge from the dashboard into the hunting and detection logic.
+
+## Engineering decisions
+
+- The dashboard uses real project telemetry rather than synthetic `classification` labels.
+- `observed_dns_source` remains neutral and is not presented as guaranteed attacker attribution.
+- NXDOMAIN is displayed as useful response context, not treated as a mandatory reconnaissance feature.
+- No extra decorative panels were added after the investigation questions were covered.
+- The final implementation is JSON because this dashboard was built in Dashboard Studio, not Classic Dashboard XML.
+
+## Relationship to the detection
+
+The dashboard and the rule intentionally examine the same behavior from different angles:
+
+```text
+Dashboard → investigation and context
+Hunting   → flexible analyst pivots
+Detection → evidence-based threshold decision
+Alert     → analyst-ready result
+```
+
+The dashboard was completed before final alert operationalization and did not need redesign after detection v1.0 stabilized.
